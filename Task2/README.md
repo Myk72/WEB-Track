@@ -16,23 +16,23 @@ In VS Code, navigate to the html file and open it.
 
 
 ## This is the General View
-![alt text](Task2\Screenshot 2024-08-07 013046.png)
+![alt text](Screenshot 2024-08-07 013046.png)
 
 ## Adding Task Feature
 
 ### When we press add it will add it to the list
-![alt text](Task2\Screenshot 2024-08-07 010136.png)
+![alt text](Screenshot 2024-08-07 010136.png)
 
 
 
 ## Editing Task Feature
 ### When we press 'Edit' button it will give as the access to edit the task.
-![alt text](Task2\Screenshot 2024-08-07 010445.png)
+![alt text](Screenshot 2024-08-07 010445.png)
 
 ### When we press the 'Save' button the task will be saved.
-![alt text](Task2\Screenshot 2024-08-07 010353.png)
+![alt text](Screenshot 2024-08-07 010353.png)
 
 ## Deleting task feature or Mark it as Done
 
 ### Press 'Delete' button to delete the task or Press the button to Mark it as done
-![alt text](Task2\Screenshot 2024-08-07 010222.png)
+![alt text](Screenshot 2024-08-07 010222.png)
