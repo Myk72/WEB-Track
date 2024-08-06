@@ -4,9 +4,9 @@ The Todo List App is a simple and efficient web application that allows users to
 
 ## Features
 
- > Add Task: Users can easily add new tasks to the list by entering a task title and description.
- > Edit Task: Users can edit the details of an existing task, such as the title and description.
- > Delete Task: Users can remove completed tasks from the list with the click of a button.
+  Add Task: Users can easily add new tasks to the list by entering a task title and description.
+  Edit Task: Users can edit the details of an existing task, such as the title and description.
+  Delete Task: Users can remove completed tasks from the list with the click of a button.
 
 ## Usage
 
