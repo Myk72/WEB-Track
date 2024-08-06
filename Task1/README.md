@@ -2,10 +2,10 @@
 ![alt text](https://github.com/Myk72/WEB-Track/blob/main/Task1/images/Screenshot%202024-08-06%20132323.png)
 
 # Adding Task Feature
-#3 When we press add it will add it to the list
+## When we press add it will add it to the list
 ![alt text](https://github.com/Myk72/WEB-Track/blob/main/Task1/images/Screenshot%202024-08-06%20132417.png)
 
-#3 This shows new task is added.
+## This shows new task is added.
 ![alt text](https://github.com/Myk72/WEB-Track/blob/main/Task1/images/Screenshot%202024-08-06%20145430.png)
 
 # Editing Task Feature
