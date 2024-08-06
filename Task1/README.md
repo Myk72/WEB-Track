@@ -1,4 +1,4 @@
-### This the General View
+### This is the General View
 ![alt text](https://github.com/Myk72/WEB-Track/blob/main/Task1/images/Screenshot%202024-08-06%20132323.png)
 
 ## Adding Task Feature
