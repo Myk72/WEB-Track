@@ -1,0 +1,61 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin:auto auto;
+    padding-top:100px;
+    background-color: rgb(87, 105, 110);
+
+}
+.head1{
+    
+    display: inline-flex;
+}
+
+.ig{
+    margin-left: 1px;
+    width: 50px;
+    height: 50px;
+}
+
+.button{
+    height: 60px;
+    margin-left: 2px;
+    width: 65px;
+    align-items: center;
+    background-color: green;
+    border: solid;
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 10px;
+    vertical-align: top;
+
+}
+
+.inp {
+    width: 350px;
+    height: 30px;
+    border: solid;
+    font-size: 20px;
+    padding: 15px;
+    border-radius: 120px;
+    margin-bottom: 5px;
+
+}
+
+#listing .task {
+	display: flex;
+	margin-top: 2px;
+    padding: 3px;
+}
+
+#listing .text{
+    width: 340px;
+    padding: 5px;
+    font-family:Arial, Helvetica, sans-serif;
+    border: solid;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-right: 2px;
+}
