@@ -1,0 +1,74 @@
+html{
+    background-color: rgb(87, 105, 110);
+}
+.to-do-list{
+    width: 80vh;
+    align-items: center;
+    position: absolute;
+    top: 10%;
+    left: 25%;
+    background-color: rgb(66, 97, 128);
+    padding: 20px;
+    border: solid 1px;
+    
+}
+.inp{
+    display: flex;
+    position: relative;
+    left: 6%;
+}
+
+.input_sec{
+    width: 460px;
+    border: none;
+    border-radius: 40px;
+    outline-color: aqua;
+    padding: 10px;
+}
+
+.add{
+    padding: 10px;
+    width: 50px;
+    margin-left: 3px;
+    background-color: green;
+    border: transparent;
+    border-radius: 50px;
+    margin-left: -50px;
+
+}
+
+.text{
+    border-radius: 10px;
+    background-color: rgb(158, 174, 202);
+    margin-left: 10px;
+    padding-left: 10px;
+    border: none;
+    flex: 1;
+}
+
+.display_section{
+    width: 500px;
+}
+.eachDis{
+    background-color: rgb(158, 174, 202);
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+}
+.edit_button{
+    color: blue;
+    background-color: transparent;
+    height: 35px;
+    
+}
+.del_button{
+    
+    background-color: transparent;
+}
+  
+.edit_button, .eachDis .del_button {
+    border: none;
+    margin-right: 5px;
+}
