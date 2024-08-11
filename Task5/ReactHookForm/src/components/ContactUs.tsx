@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type Form = {
@@ -10,10 +11,12 @@ const ContactForm = () => {
   const { register, handleSubmit, formState } = form;
 
   const { errors } = formState;
+  const [successful, setSuccessful] = useState(false);
 
   const onSubmit = (data: Form) => {
     // Testing
     console.log(data);
+    setSuccessful(true);
   };
   return (
     <div className="general">
@@ -39,6 +42,7 @@ const ContactForm = () => {
               message: "! Name is required",
             },
           })}
+          onChange={() => setSuccessful(false)}
         />
 
         <p>{errors.Name?.message}</p>
@@ -61,6 +65,7 @@ const ContactForm = () => {
               message: "Invalid Email",
             },
           })}
+          onChange={() => setSuccessful(false)}
         />
 
         <p>{errors.Email?.message}</p>
@@ -78,11 +83,25 @@ const ContactForm = () => {
               message: "! Message is required",
             },
           })}
+          onChange={() => setSuccessful(false)}
         />
 
         <p>{errors.Message?.message}</p>
 
         <button className="button">Submit</button>
+        {successful ? (
+          <p
+            style={{
+              color: "blue",
+              textAlign: "center",
+              marginTop: 5,
+              position: "relative",
+              left: -40,
+            }}
+          >
+            Successful submission ✅
+          </p>
+        ) : null}
       </form>
     </div>
   );
