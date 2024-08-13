@@ -68,14 +68,15 @@ const DashBoard: React.FC<Job> = ({
 
         <div className="mb-12">
           <h1 className="text-3xl font-black mb-5">Ideal Candidate We Want</h1>
-          {gender !== "Any" ||
-            (age !== "Any" && (
-              <li className="list-disc ml-7 mb-3 font-bold">
+          {(gender !== "Any" || age !== "Any") && (
+            <ul className="list-disc ml-7 mb-3 font-bold">
+              <li>
                 {gender !== "Any" && gender}
-                {". "}
+                {" . "}
                 {age !== "Any" && "Age (" + age + ")"}
               </li>
-            ))}
+            </ul>
+          )}
           <ul className="list-disc">
             {traits.map((trait, index) => {
               const [first, second] = trait.split(":");
