@@ -1,6 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Building a Job Listing Application using Next.js
 
-## Getting Started
+## Introduction
+This project is a job listing application that allows users to see for job listings. The application is built using Next.js, a popular React framework for building server-rendered React applications.
+
+## Features
+**Job Search**: Users can search for job listings based on various criteria, such as job title, location, gender, and job type etc.
+
+## Technologies Used
+The job listing application is built using the following technologies:
+
+- Next.js,
+- React,
+- HTML,
+- TypeScript
+- Backend integrated with https://akil-backend.onrender.com/
+
+## Cloning
+
+1. Clone the repository:
+   git clone https://github.com/Myk72/WEB-Track.git
+2. Navigate to the project directory:
+   cd Task7
+   cd Jobapp
+
+The app will be running at ('http://localhost:3000').
+
+## Landing Page
+### User can find Job List here.
+![alt text](https://github.com/Myk72/WEB-Track/blob/main/Task7/jobapp/public/img/Screenshot%202024-08-15%20114128.png)
+
+## Job decription Page
+### When specific job is clicked it will navigate to this Job decription Page
+![alt text](https://github.com/Myk72/WEB-Track/blob/main/Task7/jobapp/public/img/Screenshot%202024-08-15%20114055.png)
+
+## Run DEV-SERVER
 
 First, run the development server:
 
