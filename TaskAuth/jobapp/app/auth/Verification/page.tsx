@@ -3,15 +3,25 @@ import React from "react";
 
 import { useState } from "react";
 import Link from "next/link";
-import { useEmailVerificationMutation } from "@/app/service/dummyData";
-import { useRouter } from "next/navigation";
+import {
+  useEmailVerificationMutation,
+} from "@/app/service/dummyData";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const VerifyEmail = ({ email }: { email: string | string[] }) => {
+const VerifyEmail = () => {
+  const params = useSearchParams();
+  const email = params.get("email") || "";
+  const password = params.get("password") || "";
+  const confirmPassword = params.get("password") || "";
+  const name = params.get("name") || "";
+  const role ="User"
   const route = useRouter();
   const [EmailVerification, { data, isError, isLoading }] =
     useEmailVerificationMutation();
 
   const [code, setCode] = useState(["", "", "", ""]);
+  const [error, seterror] = useState(false);
+
   const handleInputChange = (index: number, value: string) => {
     setCode((prevCode) => {
       prevCode[index] = value;
@@ -32,21 +42,45 @@ const VerifyEmail = ({ email }: { email: string | string[] }) => {
 
   email && startCountdown();
 
+  const handleResend = async () => {
+    try {
+      const response = await fetch("https://akil-backend.onrender.com/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          confirmPassword,
+          role,
+        }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setTime(30);
+      }
+    } catch (error) {
+      console.error("Error");
+    }
+  };
+
   const handlesubmit = async () => {
-    const verificationCode = code.join("");
-    console.log(verificationCode)
+    const otp = code.join("");
+    console.log(otp);
 
     try {
-      console.log(typeof email ,typeof verificationCode , verificationCode)
-      const response = await EmailVerification({ email: email, verificationCode });
-      console.log(response,!response.error)
-      
+      //   console.log(typeof email ,typeof otp , otp)
+      const response = await EmailVerification({ email, otp });
+      console.log(response, !response.error);
+
       if (!response.error) {
+        seterror(false);
         console.log("successful!");
-        // route.refresh()
+        route.refresh();
         route.push("/auth/LoginPage");
       } else {
         console.log("failed!");
+        seterror(true);
       }
     } catch (error) {
       console.log("Error");
@@ -106,7 +140,11 @@ const VerifyEmail = ({ email }: { email: string | string[] }) => {
               </div>
               <div className="flex justify-center text-[#7C8493]">
                 You can request to{" "}
-                <Link href="" className="text-[#4640DE] font-medium ml-1 mr-1">
+                <Link
+                href={""}
+                  onClick={handleResend}
+                  className="text-[#4640DE] font-medium ml-1 mr-1"
+                >
                   Resend code
                 </Link>{" "}
                 in
@@ -115,9 +153,30 @@ const VerifyEmail = ({ email }: { email: string | string[] }) => {
               <span className="flex justify-center text-[#4640DE] font-medium ml-1 -mt-5">
                 {0}:{time < 10 ? `0${time}` : time}
               </span>
-
+              {error && (
+                <p
+                  className="text-red-600 flex justify-center -mt-[1px] font-semibold gap-1
+            "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+                    />
+                  </svg>
+                  Invalid Code
+                </p>
+              )}
               <button className="bg-[#4640DE] justify-center w-full h-[50px] p-3 bg-opacity-30 rounded-full text-white ">
-                Continue {email}
+                Continue
               </button>
             </form>
           </div>

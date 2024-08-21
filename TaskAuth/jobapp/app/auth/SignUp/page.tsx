@@ -4,6 +4,8 @@ import React, { FormEventHandler, useState } from "react";
 
 import { useRegisterMutation } from "@/app/service/dummyData";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import Email from "next-auth/providers/email";
 
 
 interface FormData {
@@ -15,44 +17,35 @@ interface FormData {
 }
 
 const SignUp = () => {
-  const [register, { data, isError, isLoading }] = useRegisterMutation();
+  const [Register, { data, isError, isLoading }] = useRegisterMutation();
   const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role:"User"
-    
-  });
+  const form = useForm<FormData>();
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
+  
   const [passwordMismatch, setPasswordMismatch] = useState(false);
 
   if (isError) {
-    return <h1 className="font-bold text-3xl"> Error O_O </h1>;
+    return <h1 className="flex justify-center font-bold text-3xl"> Error O_O </h1>;
   }
   if (isLoading) {
-    return <h1 className="font-bold text-3xl">Loading ... (❁´◡`❁)</h1>;
+    return <h1 className="flex justify-center font-bold text-3xl">Loading ... (❁´◡`❁)</h1>;
   }
-  const handleChange = (e: any) => {
-    const value = e.target.value;
-    const name = e.target.name;
-    setFormData((t) => ({
-      ...t,
-      [name]: value,
-    }));
-  };
+  
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    const {password,confirmPassword} =formData
+  const onSubmit = async (data:FormData) => {
+    
+    const {password,confirmPassword} =data
+    
     if (confirmPassword !== password){
       setPasswordMismatch(true)
     }
     else{
+      setPasswordMismatch(false)
       try {
-        const res = await register(formData);
+        const res = await Register(data);
         if (res.data.success)
-          router.push(`/SignPro/VerifyPro?email=${encodeURIComponent(formData.email)}`)
+          router.push(`/SignPro/VerifyPro?email=${encodeURIComponent(data.email)}&name=${encodeURIComponent(data.name)}&password=${encodeURIComponent(data.password)}`)
       } catch (error) {
         console.error("Error");
       }
@@ -86,19 +79,29 @@ const SignUp = () => {
           </div>
           <form
             className="flex flex-col gap-2"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             method="post"
           >
             <label className="text-[#515B6F] font-semibold">Full Name</label>
             <input
               id="name"
-              onChange={handleChange}
-              required={true}
+              {...register("name", {
+                required: {
+                  value: true,
+                  message: "Full Name is required",
+                },
+              })}
               type="text"
               placeholder="Enter your full name"
               name="name"
               className="border border-[#D6DDEB] rounded-lg h-[50px] py-[12px] px-[16px]"
             />
+
+            <p className="text-red-600 flex -mt-[1px] font-semibold gap-1
+            ">{errors.name &&<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+            }{errors.name?.message} </p>
 
             <label className="text-[#515B6F] font-semibold">
               Email Address
@@ -106,40 +109,83 @@ const SignUp = () => {
             <input
               type="email"
               id="email"
-              onChange={handleChange}
-              required={true}
               placeholder="Enter email address"
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Email is required",
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Invalid Email",
+                },
+              })}
               name="email"
-              value={formData.email}
               className="border border-[#D6DDEB] rounded-lg h-[50px] py-[12px] px-[16px]"
             />
+            <p className="text-red-600 flex -mt-[1px] font-semibold gap-1
+            ">{errors.email &&<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+            }{errors.email?.message}</p>
 
             <label className="text-[#515B6F] font-semibold">Password</label>
             <input
               type="password"
               id="password"
-              onChange={handleChange}
-              required={true}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "Password is required",
+                },
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              })}
               placeholder="Enter password"
               name="password"
               className="border border-[#D6DDEB] rounded-lg h-[50px] py-[12px] px-[16px]"
             />
-
+            <p className="text-red-600 flex -mt-[1px] font-semibold gap-1
+            ">{ errors.password &&<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+            }{errors.password?.message}</p>
             <label className="text-[#515B6F] font-semibold">
               Confirm Password
             </label>
             <input
               id="confirmPassword"
-              onChange={handleChange}
-              required={true}
+              {...register("confirmPassword", {
+                required: {
+                  value: true,
+                  message: "Confirm Password is required",
+                },
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              })}
+
               type="password"
               placeholder="Enter password"
+              onChange={(e) => setPasswordMismatch(false)}
               name="confirmPassword"
               className="border border-[#D6DDEB] rounded-lg h-[50px] py-[12px] px-[16px]"
             />
-            {passwordMismatch && (
-                <div className="text-red-600 mt-2 font-semibold">
-                  Password Mismatch!
+            <p className="text-red-600 flex -mt-[1px] font-semibold gap-1
+            ">{ errors.confirmPassword &&<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+            }{errors.confirmPassword?.message}</p>
+            {!errors.confirmPassword && passwordMismatch && (
+                <div className="text-red-600 flex -mt-[1px] font-semibold gap-1
+                ">{<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                </svg>
+                }
+                  Password does not match
                 </div>
               )}
             <button className="bg-[#4640DE] justify-center w-full h-[50px] p-3 mt-4  rounded-full text-white ">

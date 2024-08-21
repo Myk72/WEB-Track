@@ -24,15 +24,7 @@ export const productsApi = createApi({
           body: newProfile
       })
       }),
-
-    login: builder.mutation({
-        query: (profile) => ({
-            url: `/login`,
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: profile
-        })
-    }), 
+      
 
     EmailVerification: builder.mutation({
         query: (verify) => ({
@@ -47,4 +39,4 @@ export const productsApi = createApi({
   }),
 });
 
-export const { useGetAllProductQuery, useGetAllProductByIdQuery,useEmailVerificationMutation,useLoginMutation,useRegisterMutation } = productsApi;
+export const { useGetAllProductQuery, useGetAllProductByIdQuery,useEmailVerificationMutation,useRegisterMutation } = productsApi;

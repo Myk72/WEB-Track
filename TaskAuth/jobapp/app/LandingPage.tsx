@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 // import { getServerSession } from "next-auth";
 
-
 const LandingPage = () => {
   const { data: session } = useSession();
   const { data, isError, isLoading } = useGetAllProductQuery({});
@@ -66,7 +65,7 @@ const LandingPage = () => {
         </div>
 
         {data.data.map((data: any) => (
-          <Link href={`/Joblist/${data.id}`} key={data.id}>
+          <Link href={session ? `/Joblist/${data.id}` : "/SignPro"}>
             <Main
               title={data.title}
               company={data.orgName}

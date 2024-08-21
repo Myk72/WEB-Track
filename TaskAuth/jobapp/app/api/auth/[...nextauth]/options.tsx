@@ -1,71 +1,61 @@
 import GoogleProvider from "next-auth/providers/google";
-import NextAuth from "next-auth"
-import  CredentialsProvider  from "next-auth/providers/credentials";
-import Credentials from "next-auth/providers/credentials";
-import { useLoginMutation } from "@/app/service/dummyData";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 
 export const options = {
-    providers: [
-        CredentialsProvider({
-            name: "Credentials",
-            credentials :{
-                email:{
-                    label: "Email" ,type: "email",
-                },
-                password:{ label :"Password" ,type :"password"}
-                
-            },
-            authorize: async (credentials) => {
-                const email = credentials?.email as string | undefined;
-                const password = credentials?.password as string | undefined;
-                try {
-                    const [loginMutation, { data, isError, isLoading }] = useLoginMutation();
-                  
-                    if (isLoading) {
-                      return <div>Loading...</div>;
-                    }
-                  
-                    const logInData = await loginMutation({ email, password });
-                  
-                    if (logInData.data) {
-                      console.log(logInData.data);
-                      return logInData.data;
-                    } else {
-                      return <h1>Error</h1>;
-                    }
-                  } catch (error) {
-                    return <h1>Error</h1>;
-                  }
-                },
-              
-        }),
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-        }),
-    ],
-    pages:{
-        signIn: "/auth/LoginPage"
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials) {
+        const email = credentials?.email as string;
+        const password = credentials?.password as string;
+        try {
+          const response = await fetch(
+            "https://akil-backend.onrender.com/login",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            }
+          );
+          const data = await response.json();
+
+          if (data.success) {
+            console.log(data);
+            return data;
+          } else {
+            throw new Error("Invalid email or password");
+          }
+        } catch (error) {
+          throw new Error("Authentication failed");
+        }
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+  ],
+  
+
+  callbacks: {
+    async session({ session, token }: { session: any; token: any }) {
+      if (token?.sub && token?.role) {
+        session.user.id = token.sub;
+        session.user.role = token.role;
+      }
+      return session;
     },
 
-    callbacks: {
-        async session({ session, token }: { session: any; token: any }) {
-          if (token?.sub && token?.role) {
-            session.user.id = token.sub;
-            session.user.role = token.role;
-          }
-          return session;
-        },
-    
-        async jwt({ token, user }: { token: any; user: any }) {
-          if (user) {
-            token.role = user.role;
-          }
-          return token;
-        },
-      },
-
-}
-
-
+    async jwt({ token, user }: { token: any; user: any }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
+};
